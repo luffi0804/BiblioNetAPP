@@ -1,10 +1,19 @@
 ﻿using BiblioNetAPP.Models;
+using BiblioNetAPP.Services;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace BiblioNetAPP.Controllers
 {
-    public class BookController: Controller
+    public class BookController : Controller
     {
+        private readonly IRepositorieBook repositorieBook;
+
+        public BookController(IRepositorieBook repositorieBook)
+        {
+            this.repositorieBook = repositorieBook;
+        }
+
         public IActionResult Create()
         {
             return View();
@@ -17,9 +26,13 @@ namespace BiblioNetAPP.Controllers
             {
                 return View(book);
             }
-            return View();
-        }
 
+            book.AuthorId = 1;
+            book.Price= 3800;
+            repositorieBook.Create(book);
+            return View();
+
+        }
 
     }
 }
